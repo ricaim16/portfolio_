@@ -193,7 +193,7 @@
      Skills
      ------------------------------------------------------------------ */
   $("#skills-content").innerHTML = `
-    ${sectionHeading("skills-title", "Skills", "Technologies I work with")}
+    ${sectionHeading("skills-title", "Skills", "Tech Stack")}
     <div class="skills-grid">
       ${D.skills
         .map(
