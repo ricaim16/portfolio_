@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emebet Atsbaha | Full-Stack Software Engineer</title>
+  <meta name="description" content="Portfolio of Emebet Atsbaha, a full-stack software engineer building enterprise web applications with Next.js, React, TypeScript and Node.js.">
+  <meta name="author" content="Emebet Atsbaha">
+  <meta name="theme-color" content="#0A0A1A">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Emebet Atsbaha | Full-Stack Software Engineer">
+  <meta property="og:description" content="Enterprise web applications with Next.js, React, TypeScript and Node.js.">
+
+  <!-- Twitter card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Emebet Atsbaha | Full-Stack Software Engineer">
+  <meta name="twitter:description" content="Enterprise web applications with Next.js, React, TypeScript and Node.js.">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <!-- Fonts (max 2): Inter for text, JetBrains Mono for small labels/tags -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css?v=13">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Sticky navbar (links are rendered from data.js) -->
+  <header class="site-header" id="site-header">
+    <div class="container nav-inner">
+      <a class="logo" href="#home" aria-label="Emebet Atsbaha, back to top">
+        <span class="logo-mark">EA</span><span class="logo-name">Emebet Atsbaha</span>
+      </a>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+        <ul id="nav-links"></ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-label="Switch theme"></button>
+        <a class="btn btn-sm nav-cv" id="nav-cv" href="#">Download CV</a>
+        <button class="icon-btn menu-toggle" id="menu-toggle" type="button"
+                aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu"></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero + stats -->
+    <section class="hero" id="home" aria-label="Introduction">
+      <div class="container" id="hero-content"></div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container" id="about-content"></div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section section-alt" id="skills" aria-labelledby="skills-title">
+      <div class="container" id="skills-content"></div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section" id="experience" aria-labelledby="experience-title">
+      <div class="container" id="experience-content"></div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section section-alt" id="projects" aria-labelledby="projects-title">
+      <div class="container" id="projects-content"></div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container" id="contact-content"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer">
+    <div class="container" id="footer-content"></div>
+  </footer>
+
+  <!-- data.js must load before main.js -->
+  <script src="js/data.js?v=13"></script>
+  <script src="js/main.js?v=13"></script>
+</body>
+</html>

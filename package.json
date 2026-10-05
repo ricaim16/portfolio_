@@ -1,0 +1,8 @@
+{
+  "name": "emebet-portfolio",
+  "private": true,
+  "description": "Static portfolio with a Vercel serverless function for the contact form",
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  }
+}
