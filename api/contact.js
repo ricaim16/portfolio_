@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
-      auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD },
+      auth: { user: GMAIL_USER, pass: GMAIL_APP_PASSWORD.replace(/\s+/g, "") }, // Google shows it with spaces
     });
 
     await transporter.sendMail({
