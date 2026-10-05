@@ -112,11 +112,12 @@
 
   navList.innerHTML =
     D.nav.map((item) => `<li><a href="#${item.id}" data-section="${item.id}">${esc(item.label)}</a></li>`).join("") +
-    `<li class="nav-cv-mobile"><a href="${esc(cvPath)}" download="${esc(cvFileName)}">Download CV</a></li>`;
+    `<li class="nav-cv-mobile"><a href="${esc(cvPath)}" download="${esc(cvFileName)}" data-cv>Download CV</a></li>`;
 
   const navCv = $("#nav-cv");
   navCv.href = cvPath;
   navCv.setAttribute("download", cvFileName);
+  navCv.setAttribute("data-cv", "");
   navCv.innerHTML = `${icon("download", 16)} Download CV`;
 
   const setMenu = (open) => {
@@ -153,7 +154,7 @@
         <p class="hero-tagline">${esc(D.site.tagline)}</p>
         <div class="hero-actions">
           <a class="btn" href="#projects">View Projects</a>
-          <a class="btn btn-outline" href="${esc(cvPath)}" download="${esc(cvFileName)}">${icon("download", 18)} Download CV</a>
+          <a class="btn btn-outline" href="${esc(cvPath)}" download="${esc(cvFileName)}" data-cv>${icon("download", 18)} Download CV</a>
         </div>
         <ul class="social-list" aria-label="Social links">${socialLinks(22)}</ul>
     </div>
@@ -262,7 +263,7 @@
   };
 
   $("#projects-content").innerHTML = `
-    ${sectionHeading("projects-title", "Projects", "Things I've built")}
+    ${sectionHeading("projects-title", "Portfolio", "Selected Projects")}
     <div class="projects-grid">${projects.map(projectCard).join("")}</div>`;
 
   /* ------------------------------------------------------------------
@@ -347,6 +348,81 @@
         e.preventDefault();
         first.focus();
       } else if (!lightbox.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  /* ------------------------------------------------------------------
+     CV preview: "Download CV" first shows the PDF; the visitor scrolls
+     through it and can download from inside. Browsers that cannot show PDFs
+     inline (most phones) skip the preview and download straight away.
+     ------------------------------------------------------------------ */
+  const cvModal = document.createElement("div");
+  cvModal.className = "cv-modal";
+  cvModal.hidden = true;
+  cvModal.setAttribute("role", "dialog");
+  cvModal.setAttribute("aria-modal", "true");
+  cvModal.setAttribute("aria-label", "CV preview");
+  cvModal.innerHTML = `
+    <div class="cv-panel">
+      <div class="cv-bar">
+        <p class="cv-title">${esc(cvFileName)}</p>
+        <div class="cv-actions">
+          <a class="btn btn-sm cv-download" href="${esc(cvPath)}" download="${esc(cvFileName)}">${icon("download", 16)} Download</a>
+          <button class="icon-btn cv-close" type="button" aria-label="Close CV preview">${icon("close")}</button>
+        </div>
+      </div>
+      <iframe class="cv-frame" title="CV preview (scroll to read)"></iframe>
+    </div>`;
+  document.body.appendChild(cvModal);
+
+  const cvFrame = $(".cv-frame", cvModal);
+  const cvCloseBtn = $(".cv-close", cvModal);
+  let cvOpener = null;
+
+  const openCv = (opener) => {
+    cvOpener = opener;
+    if (!cvFrame.getAttribute("src")) cvFrame.src = `${cvPath}#view=FitH`; // load the PDF on first open only
+    cvModal.hidden = false;
+    document.body.classList.add("no-scroll");
+    cvCloseBtn.focus();
+  };
+
+  const closeCv = () => {
+    cvModal.hidden = true;
+    document.body.classList.remove("no-scroll");
+    if (cvOpener) cvOpener.focus();
+  };
+
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("a[data-cv]");
+    if (!link || navigator.pdfViewerEnabled !== true) return; // fall back to a normal download
+    e.preventDefault();
+    openCv(link);
+  });
+
+  cvCloseBtn.addEventListener("click", closeCv);
+  // Click on the dark backdrop (outside the panel) closes it
+  cvModal.addEventListener("click", (e) => {
+    if (e.target === cvModal) closeCv();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (cvModal.hidden) return;
+    if (e.key === "Escape") closeCv();
+    else if (e.key === "Tab") {
+      // Focus trap between the Download link and the Close button
+      const first = $(".cv-download", cvModal);
+      const last = cvCloseBtn;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!cvModal.contains(document.activeElement)) {
         e.preventDefault();
         first.focus();
       }
